@@ -1,0 +1,38 @@
+docker run --name phpmyadmin `
+-d `
+-e PMA_ARBITRARY=1 `
+-e PMA_SSL=1 `
+-p 8080:80 `
+phpmyadmin:5.2.0-apache
+
+
+//CONECTAR CONTENEDOR(world-db) A UNA RED(world-app)
+docker network connect world-app world-db
+
+//BIND VOLUMES
+docker container run `
+--name nest-app `
+-w /app `
+-p 8081:3000 `
+-v C:\Users\IVA\Documents\Cursos\Docker\Recursos\nest-graphql-app\nest-graphql:/app `
+node:18-alpine3.16 `
+sh -c "yarn install && yarn start:dev"
+
+docker container run \
+--name nest-app \
+-w /app \
+-p 8081:3000 \
+-v "$(pwd)":/app \
+node:18-alpine3.16 \
+sh -c "yarn install && yarn start:dev"
+
+//ENTRAR A LA TERMINAL INTERACTIVA DEL CONTAINER
+docker exec -it dd9 sh
+
+docker run \
+--name nest-app2 \
+-w /app \
+-p 8082:3000 \
+-v "/$(pwd)":/app \
+node:16-alpine3.16 \
+sh -c "yarn install && yarn start:dev"
